@@ -104,7 +104,7 @@ class DoublyLinkedList:
         if(self.head == None):
             self.head = new_node
             self.tail = new_node
-
+            self.length = self.length + 1
         else:
             
             new_tail_prev = self.tail
@@ -130,9 +130,17 @@ class DoublyLinkedList:
             value = self.head
             self.head = None
             self.tail = None
+            self.length = self.length - 1
             return value.get_value()
         else:
+            value = self.tail
             new_tail = self.tail.prev
+            
+            self.tail = new_tail
+            self.tail.next = None
+            self.length = self.length - 1
+            return value
+            
 
             
     """
@@ -140,8 +148,39 @@ class DoublyLinkedList:
     List and inserts it as the new head node of the List.
     """
     def move_to_front(self, node):
+        # (34) <--> (54) <--> (4) <--> (99) -> None
         if(self.head == None):
             return None
+        elif(node == self.head):
+            return f"The node is already {self.head}"
+            
+        elif(self.head == self.tail):
+            print("???")
+            return self.head.get_value()
+        # elif(node == self.tail):
+        #     next_head = self.head
+        #     new_head = self.remove_from_tail()
+        #     self.add_to_head(new_head.value)
+        #     self.head.next = next_head
+
+        #     return "Node == self.tail"
+        current = self.head
+        
+        while(current):
+
+            if current.get_value() == node.value:
+                
+                if(current.next):
+                    current.next.prev = current.prev
+                if(current.prev):
+                    current.prev.next = current.next
+                self.length = self.length - 1
+                self.add_to_head(current.get_value())
+                return current.value
+            else:
+                current = current.get_next()
+
+
         
         
     """
@@ -149,7 +188,35 @@ class DoublyLinkedList:
     List and inserts it as the new tail node of the List.
     """
     def move_to_end(self, node):
-        pass
+        print(f"self.tail in the beginning {self.tail.get_value()}")
+            # (34) <--> (54) <--> (4) <--> (99) -> None
+        if(self.head == None):
+            return None
+        elif((node.value == self.head.get_value()) and (node.value != self.tail.get_value())):
+            temp = self.tail
+            self.tail = self.head
+            self.head = temp
+            self.head.next = self.tail
+            self.tail.prev = self.head
+            return "tail and head swapped"
+        current = self.head
+        
+        while(current):
+            print(f"The current value in the head: {current.get_value()}")
+            print(f"Node value in end: {node.value}")
+            if current.get_value() == node.value:
+                print("Match in move to end!")
+                if(current.next):
+                    current.next.prev = current.prev
+                if(current.prev):
+                    current.prev.next = current.next
+                self.length = self.length - 1
+                print(f"self.tail before {self.tail.get_value()}")
+                self.add_to_tail(current.get_value())
+                print(f"self.tail after {self.tail.get_value()}")
+                return current.value
+            else:
+                current = current.get_next()
 
     """
     Deletes the input node from the List, preserving the 
