@@ -17,20 +17,68 @@ class BSTNode:
 
     # Insert the given value into the tree
     def insert(self, value):
-        pass
+        if(value >= self.value):
+            if(self.right == None):
+                self.right = BSTNode(value)
+            else:
+                self.right.insert(value)
+        elif(value < self.value):
+            if(self.left == None):
+                self.left = BSTNode(value)
+            else:
+                self.left.insert(value)
+        else:
+            self.value = value
+        
 
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        pass
+        if(self.value == target):
+            return True
+        elif(target > self.value):
+            if(self.right == None):
+                return False
+            elif(self.right.value == target):
+                return True
+            else:
+                self.right.contains(target)
+        elif(target < self.value):
+            if(self.left == None):
+                return False
+            elif(self.left.value == target):
+                return True
+            else:
+                self.left.contains(target)
+        else:
+            return False
+        
 
     # Return the maximum value found in the tree
     def get_max(self):
-        pass
+        print(f"In get max: {self.value}")
+        maximum = self.value
+        while(maximum):
+            if(self.value == None):
+                return None
+            elif(self.right):
+                if(maximum <= self.value):
+                    maximum = self.value
+                return self.right.get_max()
+            elif(self.right == None):
+                return self.value
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
-        pass
+        
+        if(self.left and self.right):
+            self.left.for_each(fn)
+            self.right.for_each(fn)
+        if((self.left) and (self.right == None)):
+            self.left.for_each(fn)
+        if((self.right) and (self.left == None)):
+            self.right.for_each(fn)
+        fn(self.value)
 
     # Part 2 -----------------------
 
@@ -73,6 +121,13 @@ bst.insert(3)
 bst.insert(4)
 bst.insert(2)
 
+arr = []
+cb = lambda x: arr.append(x)
+
+bst.for_each(cb)
+
+print(arr)
+
 bst.bft_print()
 bst.dft_print()
 
@@ -80,6 +135,6 @@ print("elegant methods")
 print("pre order")
 bst.pre_order_dft()
 print("in order")
-bst.in_order_dft()
+bst.in_order_print()
 print("post order")
 bst.post_order_dft()  
