@@ -9,6 +9,12 @@ This part of the project comprises two days:
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
 """
+
+from queue import Queue
+
+from stack import Stack
+
+
 class BSTNode:
     def __init__(self, value):
         self.value = value
@@ -56,7 +62,6 @@ class BSTNode:
 
     # Return the maximum value found in the tree
     def get_max(self):
-        print(f"In get max: {self.value}")
         maximum = self.value
         while(maximum):
             if(self.value == None):
@@ -70,7 +75,6 @@ class BSTNode:
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
-        
         if(self.left and self.right):
             self.left.for_each(fn)
             self.right.for_each(fn)
@@ -85,28 +89,98 @@ class BSTNode:
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self):
-        pass
+        if(self != None):
+            if(self.left != None):
+                self.left.in_order_print()
+            print(self.value)
+            if(self.right != None):
+                self.right.in_order_print()
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self):
-        pass
+                # instantiate a queue
+        q = Queue()
+        v = list()
+        # enqueue our starting node (self)
+        q.enqueue(self)
+        # while the queue is not empty
+        while(q.size > 0):
+            # dequeue the current node
+            val = q.dequeue()
+            v.append(val)
+            
+            # print the nodes value
+            print(val.value)
+            # check if left child exists
+            if(val.left):
+                # enqueue left child
+                q.enqueue(val.left)
+
+            # check if right child exists
+            if(val.right):
+                # enqueue right child
+                q.enqueue(val.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self):
-        pass
+                # instantiate a stack
+        s = Stack()
+        v = list()
+        # push our starting node (self)
+        s.push(self)
+        # while the stack is not empty
+        while(s.size > 0):
+            # pop the current node
+            val = s.pop()
+            v.append(val)
+            
+            # print the nodes value
+            print(val.value)
+            # check if left child exists
+            if(val.left):
+                # push left child
+                s.push(val.left)
+
+            # check if right child exists
+            if(val.right):
+                # push right child
+                s.push(val.right)
 
     # Stretch Goals -------------------------
     # Note: Research may be required
 
     # Print Pre-order recursive DFT
     def pre_order_dft(self):
-        pass
+        # instantiate a stack
+        s = Stack()
+        v = list()
+        # push our starting node (self)
+        s.push(self)
+        # while the stack is not empty
+        while(s.size > 0):
+            # pop the current node
+            val = s.pop()
+            v.append(val)
+            
+            print(val.value)
+            
+            # check if right child exists
+            if(val.right):
+                # push right child
+                s.push(val.right)
+
+            # check if left child exists
+            if(val.left):
+                # push left child
+                s.push(val.left)
 
     # Print Post-order recursive DFT
     def post_order_dft(self):
         pass
+
+
 
 """
 This code is necessary for testing the `print` methods
@@ -121,12 +195,24 @@ bst.insert(3)
 bst.insert(4)
 bst.insert(2)
 
-arr = []
-cb = lambda x: arr.append(x)
+# bst = BSTNode(6)
 
-bst.for_each(cb)
+# bst.insert(7)
+# bst.insert(2)
+# bst.insert(1)
+# bst.insert(4)
+# bst.insert(3)
+# bst.insert(5)
+# bst.insert(9)
+# bst.insert(8)
 
-print(arr)
+
+# arr = []
+# cb = lambda x: arr.append(x)
+
+# bst.for_each(cb)
+
+# print(arr)
 
 bst.bft_print()
 bst.dft_print()

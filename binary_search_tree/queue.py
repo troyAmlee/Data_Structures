@@ -52,6 +52,5 @@ class Queue:
         if(self.size == 0):
             return None
         self.size = self.size - 1
-        val = self.storage.remove_head()
-        return val
+        return self.storage.remove_head()
         

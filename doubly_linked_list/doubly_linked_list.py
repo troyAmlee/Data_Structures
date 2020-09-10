@@ -157,13 +157,7 @@ class DoublyLinkedList:
         elif(self.head == self.tail):
             print("???")
             return self.head.get_value()
-        # elif(node == self.tail):
-        #     next_head = self.head
-        #     new_head = self.remove_from_tail()
-        #     self.add_to_head(new_head.value)
-        #     self.head.next = next_head
 
-        #     return "Node == self.tail"
         current = self.head
         
         while(current):
@@ -188,7 +182,6 @@ class DoublyLinkedList:
     List and inserts it as the new tail node of the List.
     """
     def move_to_end(self, node):
-        print(f"self.tail in the beginning {self.tail.get_value()}")
             # (34) <--> (54) <--> (4) <--> (99) -> None
         if(self.head == None):
             return None
@@ -202,18 +195,15 @@ class DoublyLinkedList:
         current = self.head
         
         while(current):
-            print(f"The current value in the head: {current.get_value()}")
-            print(f"Node value in end: {node.value}")
+
             if current.get_value() == node.value:
-                print("Match in move to end!")
                 if(current.next):
                     current.next.prev = current.prev
                 if(current.prev):
                     current.prev.next = current.next
                 self.length = self.length - 1
-                print(f"self.tail before {self.tail.get_value()}")
                 self.add_to_tail(current.get_value())
-                print(f"self.tail after {self.tail.get_value()}")
+
                 return current.value
             else:
                 current = current.get_next()
@@ -256,7 +246,6 @@ class DoublyLinkedList:
             if current_node.value > max_val:
                 max_val = current_node.value
 
-            # increment
             current_node = current_node.next
         
         return max_val
